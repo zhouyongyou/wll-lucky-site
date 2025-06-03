@@ -3,102 +3,43 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WLL Lottery - USD1 of LUCK</title>
-    <style>
-        body {
-            background-color: #000;
-            color: gold;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 2rem;
-        }
-        .container {
-            max-width: 900px;
-            margin: auto;
-            background-color: #111;
-            padding: 2rem;
-            border-radius: 16px;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-        }
-        h1, h2 {
-            color: gold;
-        }
-        .card {
-            background-color: #222;
-            border-radius: 12px;
-            padding: 1rem;
-            margin: 1rem 0;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
-        }
-        .lang {
-            display: flex;
-            gap: 2rem;
-        }
-        .social {
-            margin-top: 2rem;
-        }
-        .social a {
-            color: gold;
-            margin-right: 1rem;
-        }
-        .note {
-            color: #ccc;
-            font-size: 0.9rem;
-        }
-    </style>
+    <title>$WLL 幸運抽獎池</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>USD1 of LUCK ($WLL) Lottery 機制說明</h1>
+    <div class="logo"><img src="logo.png" alt="WLL Logo" class="logo-img"></div>
+    <h1>$WLL 幸運抽獎池 | $WLL Lucky Pool</h1>
 
-        <div class="lang">
-            <div>
-                <h2>機制介紹</h2>
-                <p>每次買賣將收取 5% 稅金：</p>
-                <ul>
-                    <li>4% 用於獎池（USDT）</li>
-                    <li>1% 用於營銷基金</li>
-                </ul>
-                <p>當區塊達到指定倒數後，系統自動開獎，選出一位中獎者。</p>
-                <p>錢包若要成為候選人，需持有足夠 $WLL 且未被排除。</p>
-                <p>中獎者將獲得整個 USDT 獎池。</p>
-            </div>
-            <div>
-                <h2>Mechanism Introduction</h2>
-                <p>Each buy/sell transaction incurs a 5% tax:</p>
-                <ul>
-                    <li>4% goes to the USDT prize pool</li>
-                    <li>1% goes to the marketing fund</li>
-                </ul>
-                <p>When the countdown block reaches zero, the system draws one winner automatically.</p>
-                <p>To qualify, your wallet must hold sufficient $WLL and not be excluded.</p>
-                <p>The winner receives the entire USDT prize pool.</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>目前獎池 / Current Prize Pool</h2>
-            <p>（此區塊應自動讀取合約 ABI 數據）</p>
-        </div>
-
-        <div class="card">
-            <h2>剩餘倒數區塊 / Countdown Blocks Remaining</h2>
-            <p>（此區塊應自動讀取區塊高度）</p>
-        </div>
-
-        <div class="card">
-            <h2>歷史中獎紀錄 / Lottery History</h2>
-            <p>點此查看所有紀錄：<a href="https://bscscan.com/address/0x...">BscScan 活動紀錄</a></p>
-        </div>
-
-        <div class="social">
-            <h2>社群連結 / Community Links</h2>
-            <a href="https://t.me/yourproject">Telegram</a>
-            <a href="https://twitter.com/yourproject">Twitter</a>
-        </div>
-
-        <p class="note">網站資訊為鏈上實時資料，如需參與，請確保您符合參與資格。</p>
+    <div class="card">
+        <p>倒數區塊數 (Blocks Remaining): <span id="blockCount">載入中...</span></p>
+        <p>預估剩餘時間 (Estimated Time Left): <span id="timeRemaining">-</span></p>
+        <p>獎池金額 (Pool Amount): <span id="poolAmount">-</span> USD1</p>
+        <p>最近中獎者 (Last Winner): <span id="lastWinner">載入中...</span></p>
     </div>
+
+    <div class="card">
+        <h2>歷史中獎紀錄 | Winner History</h2>
+        <div id="winnerHistory">載入中...</div>
+    </div>
+
+    <div class="card">
+        <h3>官方推特 | Telegram</h3>
+        <p><a href="https://x.com/WLLonBSC" target="_blank">Twitter</a> | <a href="https://t.me/WLLonBSC" target="_blank">Telegram</a></p>
+    </div>
+
+    <div class="card">
+        <h2>機制說明 | Project Mechanism</h2>
+        <p>🎯 每 600 區塊（約 30 分鐘）抽一次，一位得主贏得獎池全額。<br>
+           🔁 每筆交易收 5% 稅：1% 用於推廣、4% 注入獎池。<br>
+           🪙 持有門檻：必須持有總供應量 0.1% 以上才能參加抽獎（1,000,000,000,000,000）。<br>
+           ✅ 完全鏈上自動抽獎、公開透明。</p>
+    </div>
+
+    <div class="card">
+        <p>🔗 BSC 合約：<a href="https://bscscan.com/token/0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9#readContract" target="_blank">查看合約</a> | <a href="https://dexscreener.com/bsc/0x08fb44b58bb0562924fed837f7ef9fa5507a401d" target="_blank">查看圖表</a></p>
+    </div>
+
+    <script src="app.js"></script>
 </body>
 </html>
