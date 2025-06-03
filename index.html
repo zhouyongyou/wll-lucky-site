@@ -1,23 +1,28 @@
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <title>USD1 幸運抽獎池</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>$WLL 幸運抽獎</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div class="container">
-        <h1>🎉 USD1 幸運抽獎池 🎉</h1>
-        <div id="block-countdown">倒數區塊：讀取中...</div>
-        <div id="jackpot-amount">獎池金額：讀取中...</div>
-        <div id="latest-winner">最近中獎者：讀取中...</div>
-        <div id="all-winners">中獎紀錄：</div>
-        <ul id="winner-list"></ul>
-        <div class="social">
-            <a href="https://x.com/WLLonBSC" target="_blank">官方推特</a>
-        </div>
-    </div>
-    <script src="js/app.js"></script>
+    <header>
+        <h1>$WLL 幸運抽獎池</h1>
+        <p>倒數區塊數：<span id="countdownBlocks">載入中...</span></p>
+        <p>獎池金額：<span id="jackpotAmount">載入中...</span></p>
+        <p>最近中獎者：<span id="recentWinner">載入中...</span></p>
+    </header>
+    <main>
+        <h2>歷史中獎紀錄</h2>
+        <ul id="historyList"></ul>
+    </main>
+    <footer>
+        <a href="https://x.com/WLLonBSC" target="_blank">官方推特</a> |
+        <a href="https://t.me/WLLonBSC" target="_blank">官方 Telegram</a>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

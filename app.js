@@ -1,73 +1,59 @@
 
 const contractAddress = "0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9";
-const usd1TokenAddress = "0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d";
+const usd1Address = "0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d";
+const abi = [{
+    "inputs":[],"name":"blocksUntilNextDraw","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"
+},
+{
+    "inputs":[],"name":"_USDT","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"
+},
+{
+    "inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"
+},
+{
+    "anonymous":false,"inputs":[
+        {"indexed":true,"internalType":"address","name":"winner","type":"address"},
+        {"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},
+        {"indexed":false,"internalType":"uint256","name":"blockNumber","type":"uint256"}],
+    "name":"RewardDrawn","type":"event"
+}];
 
 async function init() {
-    if (typeof window.ethereum === 'undefined') {
-        alert("請先安裝 MetaMask！");
-        return;
-    }
+    if (typeof window.ethereum !== "undefined") {
+        const web3 = new Web3(window.ethereum);
+        await window.ethereum.enable();
+        const contract = new web3.eth.Contract(abi, contractAddress);
+        
+        // 倒數區塊數
+        const blocks = await contract.methods.blocksUntilNextDraw().call();
+        document.getElementById("countdownBlocks").innerText = blocks;
 
-    const web3 = new Web3(window.ethereum);
-    await window.ethereum.request({ method: 'eth_requestAccounts' });
+        // 獎池金額 (讀取 USD1 在合約中的餘額)
+        const usd1Contract = new web3.eth.Contract(abi, usd1Address);
+        const balance = await usd1Contract.methods.balanceOf(contractAddress).call();
+        const humanReadable = parseFloat(web3.utils.fromWei(balance, 'ether')).toFixed(2);
+        document.getElementById("jackpotAmount").innerText = `${humanReadable} USD1`;
 
-    const response = await fetch('abi/contract.json');
-    const abi = await response.json();
-    const contract = new web3.eth.Contract(abi, contractAddress);
-
-    try {
-        const blocksLeft = await contract.methods.blocksUntilNextDraw().call();
-        document.getElementById("block-countdown").innerText = "倒數區塊：" + blocksLeft;
-
-        const poolBalance = await getUSDTBalance(web3, usd1TokenAddress, contractAddress);
-        document.getElementById("jackpot-amount").innerText = "獎池金額：" + poolBalance + " USD1";
-
-        const pastEvents = await contract.getPastEvents("RewardDrawn", {
-            fromBlock: 0,
+        // 中獎紀錄
+        const latest = await contract.getPastEvents("RewardDrawn", {
+            fromBlock: "earliest",
             toBlock: "latest"
         });
-
-        const winnerList = document.getElementById("winner-list");
-        winnerList.innerHTML = "";
-
-        pastEvents.reverse().forEach((event, index) => {
-            const { winner, amount, blockNumber } = event.returnValues;
-            const li = document.createElement("li");
-            li.innerText = `#${index + 1} - ${winner} 贏得 ${web3.utils.fromWei(amount, 'ether')} USD1 (Block: ${blockNumber})`;
-            winnerList.appendChild(li);
-        });
-
-        if (pastEvents.length > 0) {
-            const last = pastEvents[pastEvents.length - 1].returnValues;
-            document.getElementById("latest-winner").innerText = `最近中獎者：${last.winner}`;
+        const sorted = latest.sort((a, b) => b.returnValues.blockNumber - a.returnValues.blockNumber);
+        if (sorted.length > 0) {
+            document.getElementById("recentWinner").innerText = `${sorted[0].returnValues.winner} (${parseFloat(web3.utils.fromWei(sorted[0].returnValues.amount, 'ether')).toFixed(2)} USD1)`;
         }
-    } catch (err) {
-        console.error("錯誤：", err);
+
+        // 全部紀錄
+        const list = document.getElementById("historyList");
+        sorted.forEach(item => {
+            const li = document.createElement("li");
+            li.innerText = `區塊 ${item.returnValues.blockNumber}：${item.returnValues.winner} 獲得 ${parseFloat(web3.utils.fromWei(item.returnValues.amount, 'ether')).toFixed(2)} USD1`;
+            list.appendChild(li);
+        });
+    } else {
+        alert("請安裝 MetaMask！");
     }
 }
 
-async function getUSDTBalance(web3, tokenAddress, walletAddress) {
-    const minABI = [
-        {
-            constant: true,
-            inputs: [{ name: "_owner", type: "address" }],
-            name: "balanceOf",
-            outputs: [{ name: "balance", type: "uint256" }],
-            type: "function",
-        },
-        {
-            constant: true,
-            inputs: [],
-            name: "decimals",
-            outputs: [{ name: "", type: "uint8" }],
-            type: "function",
-        },
-    ];
-
-    const tokenContract = new web3.eth.Contract(minABI, tokenAddress);
-    const balance = await tokenContract.methods.balanceOf(walletAddress).call();
-    const decimals = await tokenContract.methods.decimals().call();
-    return (balance / (10 ** decimals)).toFixed(2);
-}
-
-window.addEventListener('load', init);
+window.addEventListener("load", init);
