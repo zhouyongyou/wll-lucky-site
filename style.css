@@ -1,52 +1,54 @@
+
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
-    background-color: #111;
-    color: #FFD700;
+  background: #111;
+  font-family: "Segoe UI", sans-serif;
+  color: #FFD700;
+  margin: 0;
+  padding: 0;
 }
 .container {
-    max-width: 768px;
-    margin: 0 auto;
-    padding: 2rem;
+  max-width: 700px;
+  margin: auto;
+  padding: 20px;
 }
-.logo {
-    width: 100px;
-    display: block;
-    margin: 0 auto 1rem;
+.logo-img {
+  display: block;
+  margin: 0 auto 20px;
+  width: 100px;
 }
-h1, h2 {
-    text-align: center;
-    font-weight: bold;
-    background: linear-gradient(45deg, #FFD700, #FFA500);
-    -webkit-background-clip: text;
-    color: transparent;
+h1 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 20px;
 }
-.info-card, .history-card {
-    background: #000;
-    border: 1px solid #FFD700;
-    border-radius: 16px;
-    box-shadow: 0 0 10px #FFD70033;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
+.card {
+  background: #000;
+  border-radius: 16px;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #FFD700;
+}
+.card p, .card h2 {
+  margin: 10px 0;
+  font-weight: 500;
 }
 .history-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  margin-top: 10px;
 }
-.history-item {
-    background: #1a1a1a;
-    border-left: 4px solid #FFD700;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
+.history-list .entry {
+  background: #222;
+  margin-bottom: 8px;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 14px;
 }
-.footer {
-    text-align: center;
-    padding-top: 1rem;
+.social {
+  text-align: center;
 }
-.footer a {
-    color: #FFD700;
-    text-decoration: none;
-    margin: 0 0.5rem;
+.social a {
+  color: #FFD700;
+  margin: 0 10px;
+  text-decoration: none;
+  font-weight: bold;
 }

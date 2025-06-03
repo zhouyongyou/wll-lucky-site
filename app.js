@@ -1,46 +1,41 @@
-const contractAddress = "0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9";
-const usdtAddress = "0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d";
-const abi = /* PASTE YOUR ABI HERE */;
 
-async function init() {
-    if (window.ethereum) {
-        window.web3 = new Web3(window.ethereum);
-        await ethereum.enable();
-    } else {
-        alert("請安裝 MetaMask");
-        return;
-    }
+const CONTRACT_ADDRESS = "0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9";
+const USD1_ADDRESS = "0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d";
 
-    const contract = new web3.eth.Contract(abi, contractAddress);
-    const usdtContract = new web3.eth.Contract([
-        { "constant": true, "inputs": [{ "name": "_owner", "type": "address" }], "name": "balanceOf", "outputs": [{ "name": "balance", "type": "uint256" }], "type": "function" },
-        { "constant": true, "inputs": [], "name": "decimals", "outputs": [{ "name": "", "type": "uint8" }], "type": "function" }
-    ], usdtAddress);
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+const signer = provider.getSigner();
 
-    const blocksLeft = await contract.methods.blocksUntilNextDraw().call();
-    const lastWinnerEvents = await contract.getPastEvents("RewardDrawn", { fromBlock: 0, toBlock: "latest" });
+async function load() {
+  const contractABI = await fetch('contract.json').then(res => res.json());
+  const contract = new ethers.Contract(CONTRACT_ADDRESS, contractABI, provider);
+  const usdt = new ethers.Contract(USD1_ADDRESS, contractABI, provider);
 
-    document.getElementById("countdown").innerText = `${blocksLeft} (~${(blocksLeft * 1.5).toFixed(0)} 秒)`;
+  // 倒數區塊
+  const remaining = await contract.blocksUntilNextDraw();
+  document.getElementById("countdown").innerText = remaining.toString();
+  document.getElementById("countdown-time").innerText = `${(remaining * 1.5).toFixed(0)} 秒`;
 
-    const usdtBalance = await usdtContract.methods.balanceOf(contractAddress).call();
-    const decimals = await usdtContract.methods.decimals().call();
-    const amount = (usdtBalance / (10 ** decimals)).toFixed(2);
-    document.getElementById("poolAmount").innerText = amount;
+  // 獎池金額
+  const balance = await usdt.balanceOf(CONTRACT_ADDRESS);
+  document.getElementById("jackpot").innerText = (balance / 1e18).toFixed(2);
 
-    if (lastWinnerEvents.length > 0) {
-        const lastWinner = lastWinnerEvents[lastWinnerEvents.length - 1];
-        document.getElementById("lastWinner").innerText = lastWinner.returnValues.winner;
-        const historyHTML = lastWinnerEvents.reverse().map(event => {
-            const winner = event.returnValues.winner;
-            const prize = (event.returnValues.amount / (10 ** decimals)).toFixed(2);
-            const block = event.returnValues.blockNumber;
-            return `<div class="history-item">${winner}<br>贏得：${prize} USD1<br>區塊：${block}</div>`;
-        }).join("");
-        document.getElementById("winnerHistory").innerHTML = historyHTML;
-    } else {
-        document.getElementById("lastWinner").innerText = "尚無資料";
-        document.getElementById("winnerHistory").innerText = "尚無中獎紀錄";
-    }
+  // 中獎事件
+  const eventFilter = contract.filters.RewardDrawn();
+  const events = await contract.queryFilter(eventFilter, -10000);
+  const historyList = document.getElementById("history");
+  if (events.length > 0) {
+    const last = events[events.length - 1];
+    document.getElementById("last-winner").innerText = last.args.winner;
+
+    historyList.innerHTML = events.reverse().map(e => {
+      const hash = e.transactionHash;
+      const amount = (e.args.amount / 1e18).toFixed(2);
+      const short = e.args.winner.slice(0, 6) + "..." + e.args.winner.slice(-4);
+      return `<div class="entry">${short} 🥇 ${amount} USD1<br><a href="https://bscscan.com/tx/${hash}" target="_blank">View TX</a></div>`;
+    }).join("");
+  } else {
+    document.getElementById("last-winner").innerText = "尚無資料 / Loading...";
+  }
 }
 
-window.addEventListener("load", init);
+window.onload = load;
