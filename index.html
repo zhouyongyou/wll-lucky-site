@@ -1,61 +1,32 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>$WLL - Lucky Lottery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$WLL 幸運抽獎池</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
-    <script src="app.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
 </head>
 <body>
     <header>
         <img src="logo.png" alt="WLL Logo" class="logo">
-        <h1>$WLL - Lucky Lottery / 幸運抽獎</h1>
-        <p>Every 30 mins, one winner takes all! 每 30 分鐘抽出一名幸運兒！</p>
+        <h1>$WLL 幸運抽獎池</h1>
     </header>
-
-    <section class="stats">
-        <h2>⏳ Countdown / 倒數區塊數</h2>
-        <p id="blocks">Loading...</p>
-
-        <h2>💰 Pool Amount / 獎池金額</h2>
-        <p id="pool">Loading...</p>
-
-        <h2>🏆 Last Winner / 最近中獎者</h2>
-        <div id="history">
-            <p>Loading...</p>
-        </div>
-    </section>
-
-    <section class="mechanism">
-        <h2>🎯 How It Works / 運作機制</h2>
-        <p>
-            🔹 Total supply: 1,000,000,000,000,000<br/>
-            🔹 Must hold at least 0.1% to qualify (≥ 1,000,000,000,000)<br/>
-            🔹 A draw happens every 30 minutes automatically<br/>
-            🔹 Buy/Sell Tax: 5% total<br/>
-            ┗ 4% to lottery pool / 彩票獎池<br/>
-            ┗ 1% for marketing / 營銷用途
-        </p>
-    </section>
-
-    <section class="history">
-        <h2>📜 Full History / 所有中獎紀錄</h2>
-        <p>
-            View all reward TXs here: <br/>
-            <a href="https://bscscan.com/advanced-filter?tkn=0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d&txntype=2&fadd=0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9&tadd=!0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9" target="_blank">
-                View on BscScan / 前往區塊鏈瀏覽器
-            </a>
-        </p>
-    </section>
-
-    <footer>
-        <h2>🌐 Community / 社群連結</h2>
-        <p>
-            <a href="https://x.com/WLLonBSC" target="_blank">🐦 Twitter</a> |
-            <a href="https://t.me/WLLonBSC" target="_blank">💬 Telegram</a>
-        </p>
-    </footer>
+    <main>
+        <section class="stats">
+            <p id="countdown">倒數區塊數：-</p>
+            <p id="countdown-time">預估剩餘時間：-</p>
+            <p id="prize">獎池金額：- USD1</p>
+            <p id="winner">最近中獎者：載入中...</p>
+        </section>
+        <section class="history">
+            <h2>歷史中獎紀錄</h2>
+            <div id="history-list" class="history-list">載入中...</div>
+        </section>
+        <footer>
+            <p><a href="https://x.com/WLLonBSC" target="_blank">官方推特</a>｜<a href="https://t.me/WLLonBSC" target="_blank">官方 Telegram</a></p>
+        </footer>
+    </main>
+    <script src="app.js"></script>
 </body>
 </html>
