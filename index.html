@@ -1,24 +1,30 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$WLL 幸運抽獎</title>
+    <title>$WLL Lucky Draw</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
 </head>
 <body>
-    <div class="container">
+    <header>
         <h1>$WLL 幸運抽獎</h1>
-        <p>每 30 分鐘自動抽出 1 位持幣者，獲得獎池全部 USDT！</p>
-        <div class="info-box">
-            <div>當前獎池：<span id="poolAmount">讀取中...</span> USDT</div>
-            <div>剩餘區塊：<span id="countdown">讀取中...</span></div>
-            <div>最近中獎者：<span id="lastWinner">讀取中...</span></div>
-        </div>
-        <h2>歷史中獎紀錄</h2>
-        <ul id="history"></ul>
-    </div>
+    </header>
+    <main>
+        <section id="jackpot">
+            <h2>當前獎池：<span id="jackpotAmount">讀取中...</span> USD1</h2>
+        </section>
+        <section id="countdown">
+            <h2>距離下一次抽獎剩餘區塊：<span id="blockCountdown">讀取中...</span></h2>
+        </section>
+        <section id="winner">
+            <h2>最近得獎者：<span id="lastWinner">讀取中...</span></h2>
+        </section>
+    </main>
+    <footer>
+        <p>合約地址：0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9</p>
+    </footer>
     <script src="app.js"></script>
 </body>
 </html>
