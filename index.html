@@ -1,30 +1,35 @@
+
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$WLL Lucky Draw</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>$WLL 幸運抽獎</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
 </head>
 <body>
     <header>
         <h1>$WLL 幸運抽獎</h1>
     </header>
     <main>
-        <section id="jackpot">
-            <h2>當前獎池：<span id="jackpotAmount">讀取中...</span> USD1</h2>
+        <section class="info">
+            <p>每 30 分鐘自動抽出一位持幣者，贏得獎池內全部 USDT！</p>
+            <ul>
+                <li>合約地址：0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9</li>
+                <li>區塊鏈：BNB Chain</li>
+                <li>稅收：1% 營銷、4% 獎金池</li>
+            </ul>
         </section>
-        <section id="countdown">
-            <h2>距離下一次抽獎剩餘區塊：<span id="blockCountdown">讀取中...</span></h2>
-        </section>
-        <section id="winner">
-            <h2>最近得獎者：<span id="lastWinner">讀取中...</span></h2>
+        <section class="dashboard">
+            <div>📦 當前獎池金額：<span id="poolAmount">讀取中...</span></div>
+            <div>⏳ 倒數區塊：<span id="countdown">讀取中...</span></div>
+            <div>🏆 最近中獎者：<span id="lastWinner">讀取中...</span></div>
         </section>
     </main>
     <footer>
-        <p>合約地址：0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9</p>
+        <p>官方社群：<a href="https://t.me/WLLonBSC" target="_blank">Telegram</a></p>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
