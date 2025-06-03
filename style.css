@@ -1,34 +1,30 @@
 
 body {
-    background-color: #000;
-    color: #FFD700;
+    background-color: #111;
+    color: gold;
     font-family: Arial, sans-serif;
-    padding: 0;
-    margin: 0;
-}
-header {
     text-align: center;
     padding: 2rem;
-    background-color: #111;
 }
-main {
+
+.container {
+    background-color: #222;
+    border: 2px solid gold;
+    border-radius: 12px;
     padding: 2rem;
+    max-width: 600px;
+    margin: auto;
 }
-section.info ul {
-    list-style-type: square;
-    margin-left: 1.5rem;
+
+h1 {
+    color: gold;
+    margin-bottom: 1rem;
 }
-section.dashboard {
-    margin-top: 2rem;
-    font-size: 1.2rem;
-}
-footer {
-    text-align: center;
-    padding: 1rem;
-    background-color: #111;
-    color: #aaa;
-}
-a {
-    color: #FFD700;
+
+.social a {
+    color: gold;
     text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 1.5rem;
 }
