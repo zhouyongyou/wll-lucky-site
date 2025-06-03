@@ -1,29 +1,45 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>WLL Lucky Draw</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="app.js" defer></script>
+    <title>$WLL 幸運抽獎池</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <img src="logo.png" alt="WLL Logo" class="logo">
-        <h1>🎰 WLL LUCKY DRAW</h1>
-        <p>⏳ 倒數區塊數 (Blocks Left): <span id="blocksLeft">Loading...</span></p>
-        <p>🪙 獎池金額 (Pool Amount): <span id="poolAmount">Loading...</span> USD1</p>
-        <p>🏆 最近中獎者 (Last Winner): <span id="lastWinner">Loading...</span></p>
-        <section id="history">
-            <h2>🏅 歷史得獎紀錄 (Winning History)</h2>
-            <div id="historyCards"></div>
-        </section>
-        <footer>
-            <p><a href="https://bscscan.com/token/0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9" target="_blank">BscScan</a> |
-            <a href="https://dexscreener.com/bsc/0x08fb44b58bb0562924fed837f7ef9fa5507a401d" target="_blank">Chart</a> |
-            <a href="https://x.com/WLLonBSC" target="_blank">Twitter</a> |
-            <a href="https://t.me/WLLonBSC" target="_blank">Telegram</a></p>
-        </footer>
+    <div class="logo"><img src="logo.png" alt="WLL Logo" class="logo-img"></div>
+    <h1>$WLL 幸運抽獎池 | $WLL Lucky Pool</h1>
+
+    <div class="card">
+        <p>倒數區塊數 (Blocks Remaining): <span id="blockCount">載入中...</span></p>
+        <p>預估剩餘時間 (Estimated Time Left): <span id="timeRemaining">-</span></p>
+        <p>獎池金額 (Pool Amount): <span id="poolAmount">-</span> USD1</p>
+        <p>最近中獎者 (Last Winner): <span id="lastWinner">載入中...</span></p>
     </div>
+
+    <div class="card">
+        <h2>歷史中獎紀錄 | Winner History</h2>
+        <div id="winnerHistory">載入中...</div>
+    </div>
+
+    <div class="card">
+        <h3>官方推特 | Telegram</h3>
+        <p><a href="https://x.com/WLLonBSC" target="_blank">Twitter</a> | <a href="https://t.me/WLLonBSC" target="_blank">Telegram</a></p>
+    </div>
+
+    <div class="card">
+        <h2>機制說明 | Project Mechanism</h2>
+        <p>🎯 每 600 區塊（約 30 分鐘）抽一次，一位得主贏得獎池全額。<br>
+           🔁 每筆交易收 5% 稅：1% 用於推廣、4% 注入獎池。<br>
+           🪙 持有門檻：必須持有總供應量 0.1% 以上才能參加抽獎（1,000,000,000,000,000）。<br>
+           ✅ 完全鏈上自動抽獎、公開透明。</p>
+    </div>
+
+    <div class="card">
+        <p>🔗 BSC 合約：<a href="https://bscscan.com/token/0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9#readContract" target="_blank">查看合約</a> | <a href="https://dexscreener.com/bsc/0x08fb44b58bb0562924fed837f7ef9fa5507a401d" target="_blank">查看圖表</a></p>
+    </div>
+
+    <script src="app.js"></script>
 </body>
 </html>

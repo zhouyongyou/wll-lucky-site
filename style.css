@@ -1,43 +1,30 @@
 
 body {
-    background-color: #121212;
-    color: gold;
-    font-family: 'Arial', sans-serif;
+    background-color: #111;
+    color: #FFD700;
+    font-family: 'Segoe UI', sans-serif;
     margin: 0;
-    padding: 0;
+    padding: 20px;
     text-align: center;
 }
-header {
-    padding: 20px;
-    border-bottom: 1px solid gold;
+.logo-img {
+    width: 80px;
+    margin-bottom: 10px;
 }
-.logo {
-    width: 60px;
-    vertical-align: middle;
-    margin-right: 10px;
-}
-.stats, .history, footer {
-    margin: 30px auto;
-    border: 1px solid gold;
-    border-radius: 15px;
-    padding: 20px;
-    width: 90%;
-    max-width: 700px;
-    background-color: #000;
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
-}
-.history-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+h1, h2 {
+    margin: 20px 0;
 }
 .card {
-    background: #222;
-    border: 1px solid gold;
-    border-radius: 10px;
-    padding: 10px;
+    background-color: #000;
+    border: 1px solid #FFD700;
+    border-radius: 16px;
+    padding: 20px;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 0 15px #FFD70033;
 }
 a {
-    color: gold;
+    color: #FFD700;
     text-decoration: none;
 }
