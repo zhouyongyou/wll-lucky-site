@@ -10,38 +10,73 @@ async function init() {
         await window.ethereum.request({ method: "eth_requestAccounts" });
         const abi = await fetch("contract.json").then(res => res.json());
         contract = new web3.eth.Contract(abi, contractAddress);
+        // 一開始先載入一次，之後每 30 秒自動更新
         loadData();
+        setInterval(loadData, 30000);
+    } else {
+        alert("請安裝或啟用 Web3 錢包（如 MetaMask）以查看資料。");
     }
 }
 
 async function loadData() {
-    const blocks = await contract.methods.blocksUntilNextDraw().call();
-    const seconds = Math.floor(blocks * 1.5);
-    const minutes = Math.floor(seconds / 60);
-    const sec = seconds % 60;
-    document.getElementById("countdown").innerText = `倒數區塊數：${blocks}`;
-    document.getElementById("countdown-time").innerText = `預估剩餘時間：約 ${minutes} 分 ${sec} 秒`;
+    try {
+        // 1. 倒數區塊數 & 預估剩餘時間
+        const blocks = await contract.methods.blocksUntilNextDraw().call();
+        const seconds = Math.floor(blocks * 1.5);
+        const minutes = Math.floor(seconds / 60);
+        const sec = seconds % 60;
+        document.getElementById("countdown").innerText = `${blocks}`;
+        document.getElementById("countdown-time").innerText = `約 ${minutes} 分 ${sec} 秒`;
 
-    const usdt = new web3.eth.Contract([
-        { "constant": true, "inputs": [{ "name": "_owner", "type": "address" }], "name": "balanceOf", "outputs": [{ "name": "", "type": "uint256" }], "type": "function" }
-    ], usdtAddress);
-    const poolAmount = await usdt.methods.balanceOf(contractAddress).call();
-    document.getElementById("prize").innerText = `獎池金額：${(poolAmount / 1e18).toFixed(2)} USD1`;
+        // 2. 獎池金額 (USDT)
+        const usdt = new web3.eth.Contract(
+            [
+                {
+                    constant: true,
+                    inputs: [{ name: "_owner", type: "address" }],
+                    name: "balanceOf",
+                    outputs: [{ name: "", type: "uint256" }],
+                    type: "function",
+                },
+            ],
+            usdtAddress
+        );
+        const poolAmount = await usdt.methods.balanceOf(contractAddress).call();
+        document.getElementById("prize").innerText = `${(poolAmount / 1e18).toFixed(2)} USD1`;
 
-    const events = await contract.getPastEvents("RewardDrawn", { fromBlock: 0, toBlock: "latest" });
-    const history = document.getElementById("history-list");
-    history.innerHTML = "";
-    events.reverse().forEach(e => {
-        const item = document.createElement("div");
-        item.className = "card";
-        item.innerText = `${e.returnValues.winner.slice(0, 6)}...${e.returnValues.winner.slice(-4)} - ${(e.returnValues.amount / 1e18).toFixed(2)} USD1`;
-        history.appendChild(item);
-    });
+        // 3. 取得所有 RewardDrawn 事件，並顯示在歷史列表
+        const events = await contract.getPastEvents("RewardDrawn", {
+            fromBlock: 0,
+            toBlock: "latest",
+        });
 
-    if (events.length > 0) {
-        const lastWinner = events[events.length - 1].returnValues.winner;
-        document.getElementById("winner").innerText = `最近中獎者：${lastWinner}`;
+        const historyContainer = document.getElementById("history-list");
+        historyContainer.innerHTML = ""; // 清空舊資料
+
+        if (events.length === 0) {
+            const msg = document.createElement("p");
+            msg.className = "loading-msg";
+            msg.innerText = "目前尚無中獎紀錄";
+            historyContainer.appendChild(msg);
+        } else {
+            // 事件倒序，最新的放最後，方便顯示最後中獎者
+            events.reverse().forEach((e) => {
+                const item = document.createElement("div");
+                item.className = "card";
+                const winnerAddr = e.returnValues.winner;
+                const shortAddr = `${winnerAddr.slice(0, 6)}...${winnerAddr.slice(-4)}`;
+                const amount = (e.returnValues.amount / 1e18).toFixed(2);
+                item.innerHTML = `<span>${shortAddr}</span><span>${amount} USD1</span>`;
+                historyContainer.appendChild(item);
+            });
+            // 顯示最後一次的完整地址
+            const lastWinner = events[events.length - 1].returnValues.winner;
+            document.getElementById("winner").innerText = lastWinner;
+        }
+    } catch (err) {
+        console.error("載入資料時發生錯誤：", err);
     }
 }
 
-window.onload = init;
+// 頁面載入時啟動
+window.addEventListener("load", init);

@@ -1,43 +1,218 @@
 
+/* 
+  優化後的整體配色：深色背景 + 金色文字
+  - 背景深色：#121212（近似純黑）
+  - 主要文字／邊框：gold (#FFD700)
+*/
+
+/* 全域設定 */
+* {
+    box-sizing: border-box;
+}
 body {
+    margin: 0;
+    padding: 0;
     background-color: #121212;
     color: gold;
     font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+}
+a {
+    color: gold;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000;
+    border-bottom: 2px solid gold;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+}
+.header .logo {
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+}
+.header-text h1 {
     margin: 0;
-    padding: 0;
+    font-size: 1.8rem;
+    line-height: 1.2;
+}
+.header-text .tagline {
+    margin: 5px 0 0;
+    font-size: 1rem;
+    color: #FFD700;
+    opacity: 0.9;
+}
+
+/* 主區塊佈局 */
+main {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 15px;
+}
+
+/* Stats（三欄）*/
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+.stat-item {
+    flex: 1 1 280px;
+    background-color: #000;
+    border: 1px solid gold;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.2);
     text-align: center;
 }
-header {
-    padding: 20px;
-    border-bottom: 1px solid gold;
+.stat-item h2 {
+    margin: 0 0 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
-.logo {
-    width: 60px;
-    vertical-align: middle;
-    margin-right: 10px;
+.stat-item .small {
+    font-size: 0.8rem;
+    color: #FFD700;
+    opacity: 0.8;
 }
-.stats, .history, footer {
-    margin: 30px auto;
-    border: 1px solid gold;
-    border-radius: 15px;
-    padding: 20px;
-    width: 90%;
-    max-width: 700px;
+.stat-value {
+    font-size: 1.6rem;
+    margin: 5px 0;
+    letter-spacing: 1px;
+}
+.stat-subvalue {
+    font-size: 1rem;
+    margin: 0;
+    color: #FFD700;
+    opacity: 0.9;
+}
+
+/* How It Works */
+.info {
     background-color: #000;
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    border: 1px solid gold;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 40px;
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.2);
+}
+.info h2 {
+    margin-top: 0;
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-align: center;
+}
+.info-list {
+    list-style: none;
+    padding-left: 0;
+}
+.info-list li {
+    margin: 8px 0;
+    font-size: 1rem;
+    padding-left: 20px;
+    position: relative;
+}
+/* 子選單 */
+.info-list .sublist {
+    list-style: none;
+    padding-left: 20px;
+    margin-top: 5px;
+}
+.info-list .sublist li {
+    font-size: 0.95rem;
+    margin: 5px 0;
+    padding-left: 20px;
+    position: relative;
+}
+
+/* Full History */
+.history {
+    background-color: #000;
+    border: 1px solid gold;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 40px;
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.2);
+}
+.history h2 {
+    margin-top: 0;
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-align: center;
+}
+.history-link {
+    text-align: center;
+    margin-bottom: 15px;
 }
 .history-list {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 5px;
 }
-.card {
-    background: #222;
+.history-list .card {
+    background-color: #222;
     border: 1px solid gold;
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 10px;
+    font-size: 0.95rem;
+    display: flex;
+    justify-content: space-between;
 }
-a {
-    color: gold;
-    text-decoration: none;
+.history-list .loading-msg {
+    text-align: center;
+    font-size: 1rem;
+    color: #FFD700;
+    opacity: 0.8;
+}
+
+/* Community */
+.community {
+    background-color: #000;
+    border: 1px solid gold;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 60px;
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.2);
+    text-align: center;
+}
+.community h2 {
+    margin-top: 0;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+.community .small {
+    font-size: 0.8rem;
+    color: #FFD700;
+    opacity: 0.8;
+}
+.community-links {
+    margin-top: 10px;
+    font-size: 1rem;
+}
+.community-links a {
+    margin: 0 8px;
+}
+
+/* 手機版響應式調整 */
+@media (max-width: 640px) {
+    .stats {
+        flex-direction: column;
+    }
+    .stat-item {
+        width: 100%;
+    }
 }
