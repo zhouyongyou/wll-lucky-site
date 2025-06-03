@@ -1,32 +1,29 @@
+
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$WLL 幸運抽獎池</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
+    <title>WLL Lucky Draw</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
 </head>
 <body>
-    <header>
+    <div class="container">
         <img src="logo.png" alt="WLL Logo" class="logo">
-        <h1>$WLL 幸運抽獎池</h1>
-    </header>
-    <main>
-        <section class="stats">
-            <p id="countdown">倒數區塊數：-</p>
-            <p id="countdown-time">預估剩餘時間：-</p>
-            <p id="prize">獎池金額：- USD1</p>
-            <p id="winner">最近中獎者：載入中...</p>
-        </section>
-        <section class="history">
-            <h2>歷史中獎紀錄</h2>
-            <div id="history-list" class="history-list">載入中...</div>
+        <h1>🎰 WLL LUCKY DRAW</h1>
+        <p>⏳ 倒數區塊數 (Blocks Left): <span id="blocksLeft">Loading...</span></p>
+        <p>🪙 獎池金額 (Pool Amount): <span id="poolAmount">Loading...</span> USD1</p>
+        <p>🏆 最近中獎者 (Last Winner): <span id="lastWinner">Loading...</span></p>
+        <section id="history">
+            <h2>🏅 歷史得獎紀錄 (Winning History)</h2>
+            <div id="historyCards"></div>
         </section>
         <footer>
-            <p><a href="https://x.com/WLLonBSC" target="_blank">官方推特</a>｜<a href="https://t.me/WLLonBSC" target="_blank">官方 Telegram</a></p>
+            <p><a href="https://bscscan.com/token/0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9" target="_blank">BscScan</a> |
+            <a href="https://dexscreener.com/bsc/0x08fb44b58bb0562924fed837f7ef9fa5507a401d" target="_blank">Chart</a> |
+            <a href="https://x.com/WLLonBSC" target="_blank">Twitter</a> |
+            <a href="https://t.me/WLLonBSC" target="_blank">Telegram</a></p>
         </footer>
-    </main>
-    <script src="app.js"></script>
+    </div>
 </body>
 </html>
