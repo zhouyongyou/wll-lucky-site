@@ -1,30 +1,32 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>$WLL Lucky Draw</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$WLL 幸運抽獎池</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
 </head>
 <body>
-  <div class="container">
-    <img src="logo.png" alt="Logo" class="logo-img" />
-    <h1>$WLL 幸運抽獎池 / Lucky Draw</h1>
-    <div class="card">
-      <p>⏳ 倒數區塊數 (Blocks Left): <span id="countdown"></span> (~<span id="countdown-time"></span>)</p>
-      <p>💰 獎池金額 (Pool Amount): <span id="jackpot"></span> USD1</p>
-      <p>🏆 最近中獎者 (Last Winner): <span id="last-winner"></span></p>
-    </div>
-    <div class="card">
-      <h2>📜 歷史中獎紀錄 / Winner History</h2>
-      <div id="history" class="history-list"></div>
-    </div>
-    <div class="card social">
-      <a href="https://x.com/WLLonBSC" target="_blank">推特 Twitter</a>
-      <a href="https://t.me/WLLonBSC" target="_blank">電報 Telegram</a>
-    </div>
-  </div>
-  <script src="app.js"></script>
+    <header>
+        <img src="assets/logo.png" alt="WLL Logo" class="logo">
+        <h1>$WLL 幸運抽獎池</h1>
+    </header>
+    <main>
+        <section class="stats">
+            <p id="countdown">倒數區塊數：-</p>
+            <p id="countdown-time">預估剩餘時間：-</p>
+            <p id="prize">獎池金額：- USD1</p>
+            <p id="winner">最近中獎者：載入中...</p>
+        </section>
+        <section class="history">
+            <h2>歷史中獎紀錄</h2>
+            <div id="history-list" class="history-list">載入中...</div>
+        </section>
+        <footer>
+            <p><a href="https://x.com/WLLonBSC" target="_blank">官方推特</a>｜<a href="https://t.me/WLLonBSC" target="_blank">官方 Telegram</a></p>
+        </footer>
+    </main>
+    <script src="app.js"></script>
 </body>
 </html>
