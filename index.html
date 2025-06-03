@@ -1,42 +1,41 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>USD1 Lottery</title>
+    <title>$WLL 幸運抽獎池 | $WLL Lucky Pool</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <img src="logo.png" alt="USD1 Logo" class="logo">
-        <div class="card">
-            <h2>⏳ Blocks Left / 剩餘區塊數：</h2>
-            <p id="blocksLeft">Loading...</p>
-
-            <h2>⏰ Estimated Time / 預估剩餘時間：</h2>
-            <p id="timeLeft">Loading...</p>
-
-            <h2>💰 Pool Amount / 獎池金額：</h2>
-            <p id="poolAmount">Loading...</p>
-
-            <h2>🏆 Last Winner / 最近中獎者：</h2>
-            <p id="lastWinner">Loading...</p>
-
-            <h2>📜 History / 歷史開獎：</h2>
-            <p><a href="https://bscscan.com/advanced-filter?tkn=0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d&txntype=2&fadd=0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9&tadd=!0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9" target="_blank">View on BscScan</a></p>
-        </div>
-
-        <div class="card">
-            <h3>📖 Mechanism / 機制說明</h3>
-            <p>To participate, hold at least 0.1% of total supply (1,000,000,000,000,000 USD1).<br>
-               參與抽獎需持有總量 0.1%（1,000,000,000,000,000 USD1）以上。</p>
-        </div>
-
-        <div class="card">
-            <h3>📊 DEX Chart / 即時圖表</h3>
-            <p><a href="https://dexscreener.com/bsc/0x08fb44b58bb0562924fed837f7ef9fa5507a401d" target="_blank">View on Dexscreener</a></p>
-        </div>
-    </div>
-    <script src="script.js"></script>
+    <header>
+        <img src="logo.png" alt="WLL Logo" class="logo">
+        <h1>$WLL 幸運抽獎池<br><span class="en">WLL Lucky Draw Pool</span></h1>
+    </header>
+    <main>
+        <section class="card">
+            <p>倒數區塊數：<span id="blocks-left">載入中...</span><br><span class="en">Blocks Left</span></p>
+            <p>預估剩餘時間：約 <span id="time-left">載入中...</span><br><span class="en">Estimated Time Left</span></p>
+            <p>獎池金額：<span id="pool-amount">載入中...</span> USD1<br><span class="en">Prize Pool</span></p>
+            <p>最近中獎者：<span id="last-winner">載入中...</span><br><span class="en">Last Winner</span></p>
+        </section>
+        <section class="card">
+            <h2>歷史中獎紀錄<br><span class="en">Past Winners</span></h2>
+            <div id="history">載入中...</div>
+        </section>
+        <section class="card">
+            <p><a href="https://x.com/WLLonBSC" target="_blank">官方推特</a> | <a href="https://t.me/WLLonBSC" target="_blank">官方 Telegram</a></p>
+        </section>
+        <section class="card">
+            <h2>參與機制說明 | How It Works</h2>
+            <p>
+                🪙 僅需持有 0.1% 總量以上，即可自動參與抽獎<br>
+                🕒 每 30 分鐘自動開獎一次，由鏈上隨機選出一位中獎者<br>
+                💰 100% 獎池發放給中獎者，無任何抽成<br>
+                🔗 開獎資訊透明可驗證，查詢合約：<br>
+                <a href="https://bscscan.com/token/0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9#readContract" target="_blank">BscScan</a><br>
+                📈 圖表資訊：<a href="https://dexscreener.com/bsc/0x08fb44b58bb0562924fed837f7ef9fa5507a401d" target="_blank">Dexscreener</a>
+            </p>
+        </section>
+    </main>
+    <script src="app.js"></script>
 </body>
 </html>
