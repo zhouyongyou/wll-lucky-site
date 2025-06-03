@@ -1,41 +1,50 @@
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <title>$WLL 幸運抽獎池 | $WLL Lucky Pool</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>USD1 of Luck</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="script.js"></script>
 </head>
 <body>
-    <header>
-        <img src="logo.png" alt="WLL Logo" class="logo">
-        <h1>$WLL 幸運抽獎池<br><span class="en">WLL Lucky Draw Pool</span></h1>
-    </header>
-    <main>
-        <section class="card">
-            <p>倒數區塊數：<span id="blocks-left">載入中...</span><br><span class="en">Blocks Left</span></p>
-            <p>預估剩餘時間：約 <span id="time-left">載入中...</span><br><span class="en">Estimated Time Left</span></p>
-            <p>獎池金額：<span id="pool-amount">載入中...</span> USD1<br><span class="en">Prize Pool</span></p>
-            <p>最近中獎者：<span id="last-winner">載入中...</span><br><span class="en">Last Winner</span></p>
-        </section>
-        <section class="card">
-            <h2>歷史中獎紀錄<br><span class="en">Past Winners</span></h2>
-            <div id="history">載入中...</div>
-        </section>
-        <section class="card">
-            <p><a href="https://x.com/WLLonBSC" target="_blank">官方推特</a> | <a href="https://t.me/WLLonBSC" target="_blank">官方 Telegram</a></p>
-        </section>
-        <section class="card">
-            <h2>參與機制說明 | How It Works</h2>
-            <p>
-                🪙 僅需持有 0.1% 總量以上，即可自動參與抽獎<br>
-                🕒 每 30 分鐘自動開獎一次，由鏈上隨機選出一位中獎者<br>
-                💰 100% 獎池發放給中獎者，無任何抽成<br>
-                🔗 開獎資訊透明可驗證，查詢合約：<br>
-                <a href="https://bscscan.com/token/0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9#readContract" target="_blank">BscScan</a><br>
-                📈 圖表資訊：<a href="https://dexscreener.com/bsc/0x08fb44b58bb0562924fed837f7ef9fa5507a401d" target="_blank">Dexscreener</a>
-            </p>
-        </section>
-    </main>
-    <script src="app.js"></script>
+  <header>
+    <img src="logo.png" alt="Logo" class="logo"/>
+    <h1>USD1 of Luck / 幸運美元</h1>
+  </header>
+  <main>
+    <section class="info-card">
+      <h2>🎯 項目機制 / Project Mechanism</h2>
+      <p>每筆買賣交易會扣除 5% 的稅金，其中包括開獎獎池與項目發展。<br/>
+         Only holders of at least 0.1% of the total supply (i.e., 1,000,000,000,000,000 tokens) are eligible to participate in the lottery.
+      </p>
+    </section>
+    <section class="stats-card">
+      <h3>⏳ 倒數區塊數 Blocks Left</h3>
+      <div id="blockCountdown">Loading...</div>
+      <h3>💰 獎池金額 Pool Amount</h3>
+      <div id="poolAmount">Loading...</div>
+      <h3>🏆 最近中獎者 Last Winner</h3>
+      <div id="lastWinner">Loading...</div>
+    </section>
+    <section class="history-link">
+      <a href="https://bscscan.com/advanced-filter?tkn=0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d&txntype=2&fadd=0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9&tadd=!0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9" target="_blank">
+        查看歷史中獎紀錄 / View History
+      </a>
+    </section>
+    <section class="social">
+      <h3>📢 社群連結 / Community Links</h3>
+      <ul>
+        <li><a href="https://twitter.com/YourProject" target="_blank">Twitter</a></li>
+        <li><a href="https://t.me/YourProject" target="_blank">Telegram</a></li>
+        <li><a href="https://bscscan.com/token/0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9" target="_blank">BSCScan</a></li>
+        <li><a href="https://dexscreener.com/bsc/0x08fb44b58bb0562924fed837f7ef9fa5507a401d" target="_blank">Dexscreener</a></li>
+      </ul>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 USD1 of Luck</p>
+  </footer>
 </body>
 </html>
