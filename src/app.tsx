@@ -4,11 +4,11 @@ import { injected } from 'wagmi/connectors';
 import { createPublicClient, http, formatUnits, parseAbiItem } from 'viem';
 import { bsc } from 'viem/chains';
 
-// --- 合約設定 ---
-const WLL_TOKEN_ADDRESS = '0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d';
-const CONTRACT_ADDRESS = '0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9';
+// --- 合約設定 (已根據您的回饋修正) ---
+const WLL_TOKEN_ADDRESS = '0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9'; // 用戶資格代幣 ($WLL)，即樂透合約本身
+const CONTRACT_ADDRESS = '0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9';  // 樂透主合約
+const USD1_TOKEN_ADDRESS = '0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d'; // 獎池代幣 (USD1)
 const QUALIFY_THRESHOLD = BigInt('1000000000000');
-const USD1_TOKEN_ADDRESS = '0x55d398326f99059fF775485246999027B3197955'; // USD1 代幣合約地址
 
 // --- ABI 定義 ---
 const TOKEN_ABI = [{ type: 'function', name: 'balanceOf', stateMutability: 'view', inputs: [{ name: 'account', type: 'address' }], outputs: [{ name: '', type: 'uint256' }] }];
@@ -22,7 +22,6 @@ const StatItem = ({ icon, title, value, subValue, isLoading }) => (
     </div>
 );
 
-// 🌟 新增：合約資訊項目組件 (包含複製功能)
 const ContractInfo = ({ name, address, link }) => {
     const [copied, setCopied] = useState(false);
 
@@ -34,7 +33,7 @@ const ContractInfo = ({ name, address, link }) => {
         try {
             document.execCommand('copy');
             setCopied(true);
-            setTimeout(() => setCopied(false), 2000); // 2 秒後重設按鈕狀態
+            setTimeout(() => setCopied(false), 2000);
         } catch (err) {
             console.error('無法複製地址: ', err);
         }
@@ -76,6 +75,7 @@ export default function App() {
     const [lastWinner, setLastWinner] = useState('...');
     const [isLoadingHistory, setIsLoadingHistory] = useState(true);
 
+    // 讀取用戶的 WLL 餘額 (根據您的說明，WLL 代幣就是主合約本身)
     const { data: userBalance, isLoading: isCheckingBalance } = useReadContract({
         abi: TOKEN_ABI,
         address: WLL_TOKEN_ADDRESS,
@@ -84,11 +84,12 @@ export default function App() {
         query: { enabled: isConnected },
     });
 
+    // 讀取獎池的 USD1 餘額
     const { data: prizePool, isLoading: isLoadingPrize } = useReadContract({
         abi: TOKEN_ABI,
         address: USD1_TOKEN_ADDRESS,
         functionName: 'balanceOf',
-        args: [CONTRACT_ADDRESS],
+        args: [CONTRACT_ADDRESS], // 檢查樂透合約地址中所持有的 USD1 數量
         query: { refetchInterval: 30000 },
     });
 
@@ -217,12 +218,10 @@ export default function App() {
                 </section>
               </div>
               
-              {/* 🌟 新增：合約資訊區塊 */}
               <section className="bg-gray-800 p-6 rounded-xl shadow-lg mt-8">
                   <h2 className="text-2xl font-bold text-teal-300 mb-4">📄 合約資訊 / Contract Information</h2>
                   <div className="space-y-2">
-                      <ContractInfo name="$WLL 代幣合約" address={WLL_TOKEN_ADDRESS} link={`https://bscscan.com/token/${WLL_TOKEN_ADDRESS}`} />
-                      <ContractInfo name="樂透主合約" address={CONTRACT_ADDRESS} link={`https://bscscan.com/address/${CONTRACT_ADDRESS}`} />
+                      <ContractInfo name="樂透主合約 ($WLL)" address={CONTRACT_ADDRESS} link={`https://bscscan.com/address/${CONTRACT_ADDRESS}`} />
                       <ContractInfo name="獎池代幣 (USD1)" address={USD1_TOKEN_ADDRESS} link={`https://bscscan.com/token/${USD1_TOKEN_ADDRESS}`} />
                   </div>
               </section>
