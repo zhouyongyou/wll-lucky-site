@@ -1,19 +1,16 @@
 import React from 'react';
 import { useAccount, useConnect, useDisconnect, useReadContract } from 'wagmi';
-import { injected } from 'wagmi/connectors'; // 更新 import 方式
+import { injected } from 'wagmi/connectors';
 
-// --- 合約設定 ---
 const WLL_TOKEN_ADDRESS = '0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d';
 const CONTRACT_ADDRESS = '0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9';
 const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955';
 const QUALIFY_THRESHOLD = BigInt('1000000000000');
 
-// --- ABI 定義 (簡化版) ---
 const WLL_TOKEN_ABI = [{ type: 'function', name: 'balanceOf', stateMutability: 'view', inputs: [{ name: 'account', type: 'address' }], outputs: [{ name: '', type: 'uint256' }] }];
 const LOTTERY_ABI = [{ type: 'function', name: 'blocksUntilNextDraw', stateMutability: 'view', inputs: [], outputs: [{ name: '', type: 'uint256' }] }];
 const USDT_ABI = [{ type: 'function', name: 'balanceOf', stateMutability: 'view', inputs: [{ name: 'account', type: 'address' }], outputs: [{ name: '', type: 'uint256' }] }];
 
-// --- UI 組件 ---
 const StatItem = ({ icon, title, value, subValue, isLoading }) => (
     <div className="p-6 bg-gray-800 rounded-xl shadow-lg text-center transition-all duration-300 hover:shadow-teal-500/20 hover:scale-105">
         <div className="flex items-center justify-center text-teal-300 mb-3">{icon}<h2 className="text-xl font-bold ml-2">{title}</h2></div>
@@ -21,7 +18,6 @@ const StatItem = ({ icon, title, value, subValue, isLoading }) => (
     </div>
 );
 
-// --- 主應用程式 ---
 export default function App() {
     const { address, isConnected } = useAccount();
     const { connect } = useConnect();
@@ -32,7 +28,7 @@ export default function App() {
         address: WLL_TOKEN_ADDRESS,
         functionName: 'balanceOf',
         args: [address],
-        query: { enabled: isConnected }, // 更新為 query.enabled
+        query: { enabled: isConnected },
     });
 
     const { data: prizePool, isLoading: isLoadingPrize } = useReadContract({
@@ -46,7 +42,7 @@ export default function App() {
         abi: LOTTERY_ABI,
         address: CONTRACT_ADDRESS,
         functionName: 'blocksUntilNextDraw',
-        query: { refetchInterval: 15000 }, // 更新為 query.refetchInterval
+        query: { refetchInterval: 15000 },
     });
 
     const isQualified = userBalance ? userBalance >= QUALIFY_THRESHOLD : false;
