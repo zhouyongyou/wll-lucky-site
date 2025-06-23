@@ -1,86 +1,13 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-Hant">
-<head>
+  <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>$WLL - Lucky Lottery / 幸運抽獎</title>
-    <!-- 引入優化後的 CSS -->
-    <link rel="stylesheet" href="style.css" />
-    <!-- Web3.js -->
-    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
-</head>
-<body>
-    <!-- Header 區塊 -->
-    <header class="header">
-        <img src="logo.png" alt="WLL Logo" class="logo" />
-        <div class="header-text">
-            <h1>$WLL - Lucky Lottery / 幸運抽獎</h1>
-            <p class="tagline">Every 30 mins, one winner takes all!  每 30 分鐘抽出一名幸運兒！</p>
-        </div>
-    </header>
-
-    <main>
-        <!-- Stats 三欄展示 -->
-        <section class="stats">
-            <div class="stat-item">
-                <h2>⏳ Countdown <span class="small">/ 倒數區塊數</span></h2>
-                <p id="countdown" class="stat-value">Loading...</p>
-                <p id="countdown-time" class="stat-subvalue">Loading...</p>
-            </div>
-            <div class="stat-item">
-                <h2>💰 Pool Amount <span class="small">/ 獎池金額</span></h2>
-                <p id="prize" class="stat-value">Loading...</p>
-            </div>
-            <div class="stat-item">
-                <h2>🏆 Last Winner <span class="small">/ 最近中獎者</span></h2>
-                <p id="winner" class="stat-value">Loading...</p>
-            </div>
-        </section>
-
-        <!-- How It Works 區塊 -->
-        <section class="info">
-            <h2>🎯 How It Works <span class="small">/ 運作機制</span></h2>
-            <ul class="info-list">
-                <li>🔹 Total supply: 1,000,000,000,000,000</li>
-                <li>🔹 Must hold at least 0.1% to qualify (≥ 1,000,000,000,000)</li>
-                <li>🔹 A draw happens every 30 minutes automatically</li>
-                <li>🔹 Buy/Sell Tax: 5% total
-                    <ul class="sublist">
-                        <li>└ 4% to lottery pool / 彩票獎池</li>
-                        <li>└ 1% for marketing / 營銷用途</li>
-                    </ul>
-                </li>
-            </ul>
-        </section>
-
-        <!-- Full History 區塊 -->
-        <section class="history">
-            <h2>📜 Full History <span class="small">/ 所有中獎紀錄</span></h2>
-            <p class="history-link">
-                View all reward TXs here: 
-                <a href="https://bscscan.com/advanced-filter?tkn=0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d&txntype=2&fadd=0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9&tadd=!0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9" target="_blank">
-                    View on BscScan / 前往區塊鏈瀏覽器
-                </a>
-            </p>
-            <div id="history-list" class="history-list">
-                <p class="loading-msg">載入中...</p>
-            </div>
-        </section>
-
-        <!-- Community 區塊 -->
-        <section class="community">
-            <h2>🌐 Community <span class="small">/ 社群連結</span></h2>
-            <p class="community-links">
-                🐦 
-                <a href="https://x.com/WLLonBSC" target="_blank">Twitter</a> | 
-                💬 
-                <a href="https://t.me/WLLonBSC" target="_blank">Telegram</a>
-            </p>
-        </section>
-    </main>
-
-    <!-- 引入優化後的 JS -->
-    <script src="app.js"></script>
-</body>
+    <title>$WLL - Lucky Lottery DApp</title>
+  </head>
+  <body class="bg-gray-900">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
