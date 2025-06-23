@@ -8,9 +8,9 @@ import { bsc } from 'viem/chains';
 const WLL_TOKEN_ADDRESS = '0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d';
 const CONTRACT_ADDRESS = '0x119cc3d1D6FF0ab74Ca5E62CdccC101AE63f69C9';
 const QUALIFY_THRESHOLD = BigInt('1000000000000');
-const USD1_TOKEN_ADDRESS = '0x55d398326f99059fF775485246999027B3197955'; // 假設 USD1 是 USDT
+const USD1_TOKEN_ADDRESS = '0x55d398326f99059fF775485246999027B3197955'; // USD1 代幣合約地址
 
-// --- ABI 定義 (簡化版) ---
+// --- ABI 定義 ---
 const TOKEN_ABI = [{ type: 'function', name: 'balanceOf', stateMutability: 'view', inputs: [{ name: 'account', type: 'address' }], outputs: [{ name: '', type: 'uint256' }] }];
 const LOTTERY_ABI = [{ type: 'function', name: 'blocksUntilNextDraw', stateMutability: 'view', inputs: [], outputs: [{ name: '', type: 'uint256' }] }];
 
@@ -21,6 +21,44 @@ const StatItem = ({ icon, title, value, subValue, isLoading }) => (
         <div className="h-16 flex flex-col justify-center">{isLoading ? <div className="animate-pulse h-8 bg-gray-700 rounded-md w-3/4 mx-auto"></div> : (<><p className="text-3xl font-mono text-white">{value}</p>{subValue && <p className="text-md text-gray-400 mt-1">{subValue}</p>}</>)}</div>
     </div>
 );
+
+// 🌟 新增：合約資訊項目組件 (包含複製功能)
+const ContractInfo = ({ name, address, link }) => {
+    const [copied, setCopied] = useState(false);
+
+    const handleCopy = () => {
+        const textArea = document.createElement("textarea");
+        textArea.value = address;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000); // 2 秒後重設按鈕狀態
+        } catch (err) {
+            console.error('無法複製地址: ', err);
+        }
+        document.body.removeChild(textArea);
+    };
+
+    return (
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between py-3 border-b border-gray-700/50">
+            <span className="text-gray-300 mb-1 sm:mb-0">{name}</span>
+            <div className="flex items-center space-x-2">
+                <a href={link} target="_blank" rel="noopener noreferrer" className="text-sm font-mono text-teal-400 hover:text-teal-200" title="在 BscScan 上查看">
+                    {`${address.slice(0, 8)}...${address.slice(-6)}`}
+                </a>
+                <button onClick={handleCopy} className="p-1.5 bg-gray-600 hover:bg-gray-500 rounded-md transition-colors" title="複製地址">
+                    {copied ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-green-400"><path d="M20 6 9 17l-5-5"></path></svg>
+                    ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>
+                    )}
+                </button>
+            </div>
+        </div>
+    );
+};
 
 // --- Viem 公共客戶端 ---
 const publicClient = createPublicClient({
@@ -34,12 +72,10 @@ export default function App() {
     const { connect } = useConnect();
     const { disconnect } = useDisconnect();
 
-    // 🌟 新增：用於儲存歷史紀錄和最近中獎者的狀態
     const [history, setHistory] = useState([]);
     const [lastWinner, setLastWinner] = useState('...');
     const [isLoadingHistory, setIsLoadingHistory] = useState(true);
 
-    // 讀取用戶的 WLL 餘額
     const { data: userBalance, isLoading: isCheckingBalance } = useReadContract({
         abi: TOKEN_ABI,
         address: WLL_TOKEN_ADDRESS,
@@ -48,7 +84,6 @@ export default function App() {
         query: { enabled: isConnected },
     });
 
-    // 🌟 修正：讀取獎池的 USD1 餘額
     const { data: prizePool, isLoading: isLoadingPrize } = useReadContract({
         abi: TOKEN_ABI,
         address: USD1_TOKEN_ADDRESS,
@@ -64,7 +99,6 @@ export default function App() {
         query: { refetchInterval: 15000 },
     });
 
-    // 🌟 新增：使用 useEffect 來獲取事件日誌
     useEffect(() => {
         const fetchHistory = async () => {
             try {
@@ -74,11 +108,10 @@ export default function App() {
                 const logs = await publicClient.getLogs({
                     address: CONTRACT_ADDRESS,
                     event: rewardDrawnEvent,
-                    fromBlock: BigInt(0), // 從創世區塊開始
+                    fromBlock: BigInt(0),
                 });
 
                 if (logs.length > 0) {
-                    // 將日誌按區塊號碼倒序排列
                     const sortedLogs = [...logs].sort((a, b) => Number(b.blockNumber) - Number(a.blockNumber));
                     setHistory(sortedLogs);
                     setLastWinner(sortedLogs[0].args.winner);
@@ -97,7 +130,6 @@ export default function App() {
     }, []);
 
     const isQualified = userBalance ? userBalance >= QUALIFY_THRESHOLD : false;
-    // 🌟 修正：使用 formatUnits 處理精度，並顯示正確單位
     const prizeFormatted = prizePool ? parseFloat(formatUnits(prizePool, 18)).toFixed(2) : '0.00';
     const countdownTime = countdownBlocks ? `約 ${Math.floor(Number(countdownBlocks) * 3 / 60)} 分 ${Math.floor(Number(countdownBlocks) * 3 % 60)} 秒` : '';
 
@@ -184,6 +216,17 @@ export default function App() {
                   </div>
                 </section>
               </div>
+              
+              {/* 🌟 新增：合約資訊區塊 */}
+              <section className="bg-gray-800 p-6 rounded-xl shadow-lg mt-8">
+                  <h2 className="text-2xl font-bold text-teal-300 mb-4">📄 合約資訊 / Contract Information</h2>
+                  <div className="space-y-2">
+                      <ContractInfo name="$WLL 代幣合約" address={WLL_TOKEN_ADDRESS} link={`https://bscscan.com/token/${WLL_TOKEN_ADDRESS}`} />
+                      <ContractInfo name="樂透主合約" address={CONTRACT_ADDRESS} link={`https://bscscan.com/address/${CONTRACT_ADDRESS}`} />
+                      <ContractInfo name="獎池代幣 (USD1)" address={USD1_TOKEN_ADDRESS} link={`https://bscscan.com/token/${USD1_TOKEN_ADDRESS}`} />
+                  </div>
+              </section>
+
             </main>
 
             <footer className="text-center mt-12 py-6 border-t border-gray-800">
